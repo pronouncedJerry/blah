@@ -36,6 +36,7 @@
         <meta name="color-scheme" content="light dark">
         <link rel="stylesheet" href="css/index.css">
         <title>Hello World</title>
+        <script src="cordova.js"></script>
     </head>
     <body>
         <!-- Loading View -->
@@ -78,13 +79,11 @@
             <div id="add-todo-error"></div>
         </div>
 
-        <script src="cordova.js"></script>
-        <script src="js/index.js"></script>
         <script type="text/javascript">
             document.addEventListener('deviceready', onDeviceReady, false)
 
             function onDeviceReady() {
-            userbase.init({ appId: '<YOUR APP ID>' })
+            userbase.init({ appId: 'd1f4f326-339b-42aa-a6a7-907f3f5ac038' })
                 .then((session) => session.user ? showTodos(session.user) : showAuth())
                 .catch(() => showAuth())
                 .finally(() => document.getElementById('loading-view').style.display = 'none')
