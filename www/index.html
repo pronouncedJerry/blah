@@ -1,34 +1,7 @@
 <!DOCTYPE html>
-<!--
-    Licensed to the Apache Software Foundation (ASF) under one
-    or more contributor license agreements.  See the NOTICE file
-    distributed with this work for additional information
-    regarding copyright ownership.  The ASF licenses this file
-    to you under the Apache License, Version 2.0 (the
-    "License"); you may not use this file except in compliance
-    with the License.  You may obtain a copy of the License at
-
-    http://www.apache.org/licenses/LICENSE-2.0
-
-    Unless required by applicable law or agreed to in writing,
-    software distributed under the License is distributed on an
-    "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
-     KIND, either express or implied.  See the License for the
-    specific language governing permissions and limitations
-    under the License.
--->
 <html>
     <head>
         <meta charset="utf-8">
-        <!--
-        Customize this policy to fit your own app's needs. For more guidance, see:
-            https://github.com/apache/cordova-plugin-whitelist/blob/master/README.md#content-security-policy
-        Some notes:
-            * gap: is required only on iOS (when using UIWebView) and is needed for JS->native communication
-            * https://ssl.gstatic.com is required only on Android and is needed for TalkBack to function properly
-            * Disables use of inline scripts in order to mitigate risk of XSS vulnerabilities. To change this:
-                * Enable inline JS: add 'unsafe-inline' to default-src
-        -->
         <meta http-equiv="Content-Security-Policy" content="default-src 'self' data: gap: 'unsafe-eval'; style-src 'self' 'unsafe-inline'; media-src *; img-src 'self' data: content:;">
         <meta name="format-detection" content="telephone=no">
         <meta name="msapplication-tap-highlight" content="no">
@@ -80,115 +53,115 @@
         </div>
 
         <script type="text/javascript">
-            document.addEventListener('deviceready', onDeviceReady, false)
+            document.addEventListener('deviceready', onDeviceReady, false);
 
             function onDeviceReady() {
                 userbase.init({ appId: 'd1f4f326-339b-42aa-a6a7-907f3f5ac038' })
                     .then((session) => session.user ? showTodos(session.user) : showAuth())
                     .catch(() => showAuth())
-                    .finally(() => document.getElementById('loading-view').style.display = 'none')
+                    .finally(() => document.getElementById('loading-view').style.display = 'none');
 
                 function handleLogin(e) {
                     e.preventDefault()
 
-                    const username = document.getElementById('login-username').value
-                    const password = document.getElementById('login-password').value
+                    const username = document.getElementById('login-username').value;
+                    const password = document.getElementById('login-password').value;
 
                     userbase.signIn({ username, password, rememberMe: 'local' })
                         .then((user) => showTodos(user))
-                        .catch((e) => document.getElementById('login-error').innerHTML = e)
+                        .catch((e) => document.getElementById('login-error').innerHTML = e);
                 }
 
                 function handleSignUp(e) {
                     e.preventDefault()
 
-                    const username = document.getElementById('signup-username').value
-                    const password = document.getElementById('signup-password').value
+                    const username = document.getElementById('signup-username').value;
+                    const password = document.getElementById('signup-password').value;
 
                     userbase.signUp({ username, password, rememberMe: 'local' })
                         .then((user) => showTodos(user))
-                        .catch((e) => document.getElementById('signup-error').innerHTML = e)
+                        .catch((e) => document.getElementById('signup-error').innerHTML = e);
                 }
 
                 function handleLogout() {
                     userbase.signOut()
                         .then(() => showAuth())
-                        .catch((e) => document.getElementById('logout-error').innerText = e)
+                        .catch((e) => document.getElementById('logout-error').innerText = e);
                 }
 
                 function showTodos(user) {
-                    document.getElementById('auth-view').style.display = 'none'
-                    document.getElementById('todo-view').style.display = 'block'
+                    document.getElementById('auth-view').style.display = 'none';
+                    document.getElementById('todo-view').style.display = 'block';
 
                     // reset the todos view
-                    document.getElementById('username').innerHTML = user.username
-                    document.getElementById('todos').innerText = ''
-                    document.getElementById('db-loading').style.display = 'block'
-                    document.getElementById('db-error').innerText = ''
+                    document.getElementById('username').innerHTML = user.username;
+                    document.getElementById('todos').innerText = '';
+                    document.getElementById('db-loading').style.display = 'block';
+                    document.getElementById('db-error').innerText = '';
 
                     userbase.openDatabase({ databaseName: 'todos', changeHandler })
-                        .catch((e) => document.getElementById('db-error').innerText = e)
+                        .catch((e) => document.getElementById('db-error').innerText = e);
                 }
 
                 function showAuth() {
-                    document.getElementById('todo-view').style.display = 'none'
-                    document.getElementById('auth-view').style.display = 'block'
-                    document.getElementById('login-username').value = ''
-                    document.getElementById('login-password').value = ''
-                    document.getElementById('login-error').innerText = ''
-                    document.getElementById('signup-username').value = ''
-                    document.getElementById('signup-password').value = ''
-                    document.getElementById('signup-error').innerText = ''
+                    document.getElementById('todo-view').style.display = 'none';
+                    document.getElementById('auth-view').style.display = 'block';
+                    document.getElementById('login-username').value = '';
+                    document.getElementById('login-password').value = '';
+                    document.getElementById('login-error').innerText = '';
+                    document.getElementById('signup-username').value = '';
+                    document.getElementById('signup-password').value = '';
+                    document.getElementById('signup-error').innerText = '';
                 }
 
                 function changeHandler(items) {
-                    document.getElementById('db-loading').style.display = 'none'
+                    document.getElementById('db-loading').style.display = 'none';
 
-                    const todosList = document.getElementById('todos')
+                    const todosList = document.getElementById('todos');
 
                     if (items.length === 0) {
-                        todosList.innerText = 'Empty'
+                        todosList.innerText = 'Empty';
                     } else {
                         // clear the list
-                        todosList.innerHTML = ''
+                        todosList.innerHTML = '';
 
                         // render all the to-do items
                         for (let i = 0; i < items.length; i++) {
 
                             // build the todo delete button
-                            const todoDelete = document.createElement('button')
-                            todoDelete.innerHTML = 'X'
-                            todoDelete.style.display = 'inline-block'
+                            const todoDelete = document.createElement('button');
+                            todoDelete.innerHTML = 'X';
+                            todoDelete.style.display = 'inline-block';
                             todoDelete.onclick = () => {
-                            userbase.deleteItem({ databaseName: 'todos', itemId: items[i].itemId })
-                                .catch((e) => document.getElementById('add-todo-error').innerHTML = e)
+                                userbase.deleteItem({ databaseName: 'todos', itemId: items[i].itemId })
+                                    .catch((e) => document.getElementById('add-todo-error').innerHTML = e);
                             }
 
                             // build the todo checkbox
-                            const todoBox = document.createElement('input')
-                            todoBox.type = 'checkbox'
-                            todoBox.id = items[i].itemId
-                            todoBox.checked = items[i].item.complete ? true : false
+                            const todoBox = document.createElement('input');
+                            todoBox.type = 'checkbox';
+                            todoBox.id = items[i].itemId;
+                            todoBox.checked = items[i].item.complete ? true : false;
                             todoBox.onclick = (e) => {
-                            e.preventDefault()
-                            userbase.updateItem({ databaseName: 'todos', itemId: items[i].itemId, item: {
-                                'todo': items[i].item.todo,
-                                'complete': !items[i].item.complete
-                            }})
-                            .catch((e) => document.getElementById('add-todo-error').innerHTML = e)
+                                e.preventDefault()
+                                userbase.updateItem({ databaseName: 'todos', itemId: items[i].itemId, item: {
+                                    'todo': items[i].item.todo,
+                                    'complete': !items[i].item.complete
+                                }})
+                                .catch((e) => document.getElementById('add-todo-error').innerHTML = e);
                             }
 
                             // build the todo label
-                            const todoLabel = document.createElement('label')
-                            todoLabel.innerHTML = items[i].item.todo
-                            todoLabel.style.textDecoration = items[i].item.complete ? 'line-through' : 'none'
+                            const todoLabel = document.createElement('label');
+                            todoLabel.innerHTML = items[i].item.todo;
+                            todoLabel.style.textDecoration = items[i].item.complete ? 'line-through' : 'none';
 
                             // append the todo item to the list
-                            const todoItem = document.createElement('div')
-                            todoItem.appendChild(todoDelete)
-                            todoItem.appendChild(todoBox)
-                            todoItem.appendChild(todoLabel)
-                            todosList.appendChild(todoItem)
+                            const todoItem = document.createElement('div');
+                            todoItem.appendChild(todoDelete);
+                            todoItem.appendChild(todoBox);
+                            todoItem.appendChild(todoLabel);
+                            todosList.appendChild(todoItem);
                         }
                     }
                 }
@@ -196,17 +169,17 @@
                 function addTodoHandler(e) {
                     e.preventDefault()
 
-                    const todo = document.getElementById('add-todo').value
+                    const todo = document.getElementById('add-todo').value;
 
                     userbase.insertItem({ databaseName: 'todos', item: { 'todo': todo }})
                         .then(() => document.getElementById('add-todo').value = '')
-                        .catch((e) => document.getElementById('add-todo-error').innerHTML = e)
+                        .catch((e) => document.getElementById('add-todo-error').innerHTML = e);
                 }
 
-                document.getElementById('login-form').addEventListener('submit', handleLogin)
-                document.getElementById('signup-form').addEventListener('submit', handleSignUp)
-                document.getElementById('add-todo-form').addEventListener('submit', addTodoHandler)
-                document.getElementById('logout-button').addEventListener('click', handleLogout)
+                document.getElementById('login-form').addEventListener('submit', handleLogin);
+                document.getElementById('signup-form').addEventListener('submit', handleSignUp);
+                document.getElementById('add-todo-form').addEventListener('submit', addTodoHandler);
+                document.getElementById('logout-button').addEventListener('click', handleLogout);
             }    
         </script>
     </body>
